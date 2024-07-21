@@ -2,27 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PLayerController : MonoBehaviour
+public class PLayerController : Entity
 {
-    
-    // Start is called before the first frame update
-    Rigidbody2D rigi;
-    Animator ani;
-    Vector3 movement;
-    [SerializeField] bool isMoving;
-    float moveX, hp, timeCount;
-    private bool isFacingRight = true;
 
+    // Start is called before the first frame update
+
+    // [SerializeField] bool isMoving;
+
+    // private bool isFacingRight = true;
+
+
+    [Header("Move Info")]
+    private float moveX;
     [SerializeField] private float jumpForce = 20f;
     [SerializeField] private float speed = 4f;
 
-    [SerializeField] private bool isFlip = true;
+    // [SerializeField] private bool isFlip = true;
 
 
-    [Header("Collision Info")]
-    [SerializeField] private float groundCheckDistance;
-    [SerializeField] private LayerMask whatIsGround;
-    [SerializeField] private bool isOnGround;
+
 
     [Header("Dash Info")]
     [SerializeField] private float dashDuration;
@@ -36,20 +34,19 @@ public class PLayerController : MonoBehaviour
     [SerializeField] private float comboTimeWindow;
     [SerializeField] private bool isAttacking;
     [SerializeField] private int comboCounter;
-    void Start()
+    protected override void Start()
     {
-        rigi = GetComponent<Rigidbody2D>();
-        ani = GetComponentInChildren<Animator>();
+        base.Start();
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         Moving();
         checkInput();
-        CollisionChecks();
-        Flip();
-
+        FlipController();
+        // Debug.Log(rigi.velocity.x +" "+rigi.velocity.y);
 
         dashTime -= Time.deltaTime;
         dashCooldownTimer -= Time.deltaTime;
@@ -61,12 +58,15 @@ public class PLayerController : MonoBehaviour
 
     }
 
-    private void CollisionChecks()
-    {
-        isOnGround = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
-        Debug.Log(isOnGround);
-    }
 
+    public void FlipController()
+    {
+        if(rigi.velocity.x>0 && !facingRight){
+            Flip();
+        }else if(rigi.velocity.x<0 && facingRight){
+            Flip();
+        }
+    }
 
     public void AttackingOver()
     {
@@ -96,19 +96,19 @@ public class PLayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            
-           PrefabManager.Instance.UseAbility(0);
+
+            PrefabManager.Instance.UseAbility(0);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-           PrefabManager.Instance.UseAbility(1);
+            PrefabManager.Instance.UseAbility(1);
         }
 
     }
 
     private void StartAttackEvent()
     {
-        if(!isOnGround)return;
+        if (!isOnGround) return;
         if (comboTimeWindow < 0)
         {
             comboCounter = 0;
@@ -127,8 +127,9 @@ public class PLayerController : MonoBehaviour
     }
     void Moving()
     {
-        if(isAttacking){
-            rigi.velocity=new Vector2(0,0);
+        if (isAttacking)
+        {
+            rigi.velocity = new Vector2(0, 0);
         }
         else if (dashTime > 0)
         {
@@ -155,7 +156,7 @@ public class PLayerController : MonoBehaviour
         //     isMoving=false;
         // }
         //#3
-        isMoving = rigi.velocity.x != 0;
+        bool isMoving = rigi.velocity.x != 0;
         ani.SetFloat("yVelocity", rigi.velocity.y);
         ani.SetBool("isMoving", isMoving);
         ani.SetBool("isOnGround", isOnGround);
@@ -175,31 +176,11 @@ public class PLayerController : MonoBehaviour
     // private void OnCollisionEnter2D(Collision2D other) {
     //     isOnGround=true;
     // }
-
-    void Flip()
+    protected override void CollisionChecks()
     {
-        //#1
-        // if ((isFacingRight && moveX < 0 )|| (!isFacingRight && moveX > 0))
-        // {
-        //     isFacingRight = !isFacingRight;
-        //     Vector3 size = transform.localScale;
-        //     size.x = size.x * -1;
-        //     transform.localScale = size;
+        base.CollisionChecks();
+    }
 
-        // }
-        //#2
-        if (moveX > 0)
-            transform.localScale = Vector3.one;
-        else if (moveX < 0)
-            transform.localScale = new Vector3(-1, 1, 1);
-    }
-    private void OnDrawGizmos()
-    {
-        // Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - groundCheckDistance));
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, groundCheckDistance);
-        //or dung
-        //// Debug.DrawRay(transform.position,Vector2.down*groundCheckDistance,Color.red);
-    }
+
 
 }
