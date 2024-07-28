@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMoveState : PlayerState
+public class PlayerMoveState : PlayerGroundedState
 {
     // Start is called before the first frame update
-    public PlayerMoveState(Player _player,PlayerStateMachine _stateMachine,string _animBoolName):base( _player, _stateMachine, _animBoolName){
+    public PlayerMoveState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    {
     }
     public override void Enter()
     {
@@ -18,7 +19,10 @@ public class PlayerMoveState : PlayerState
     public override void Update()
     {
         base.Update();
-        if(Input.GetKeyDown(KeyCode.Q))
+        player.SetVelocity(xInput*player.moveSpeed,rb.velocity.y);
+        if (xInput == 0 || player.IsWallDetected())
+        {
             stateMachine.ChangeState(player.idleState);
+        }
     }
 }
