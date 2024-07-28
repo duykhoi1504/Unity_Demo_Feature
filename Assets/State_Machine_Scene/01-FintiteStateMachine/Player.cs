@@ -45,10 +45,11 @@ public class Player : MonoBehaviour
     public PlayerMoveState moveState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
     public PlayerAirState airState { get; private set; }
-    public PlayerWallSlideState wallState { get; private set; }
-
-    public PlayerDashState dashState { get; private set; }
+    public PlayerWallSlideState wallSlide { get; private set; }
     public PlayerWallJumpState wallJump { get; private set; }
+    public PlayerDashState dashState { get; private set; }
+    public PlayerPrimaryAttack primaryAttack { get; private set; }
+
 
 
     #endregion
@@ -63,9 +64,9 @@ public class Player : MonoBehaviour
         jumpState = new PlayerJumpState(this, stateMachine, "Jump");
         airState = new PlayerAirState(this, stateMachine, "Jump");
         dashState = new PlayerDashState(this, stateMachine, "Dash");
-        wallState = new PlayerWallSlideState(this, stateMachine, "WallSlide");
+        wallSlide = new PlayerWallSlideState(this, stateMachine, "WallSlide");
         wallJump = new PlayerWallJumpState(this, stateMachine, "Jump");
-
+        primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "Attack");
 
     }
     private void Start()
@@ -89,13 +90,14 @@ public class Player : MonoBehaviour
         // }
         Debug.Log(IsWallDetected());
     }
+      public void AimationTrigger()=>stateMachine.currentState.AnimationFinishTrigger();
     private void CheckForDashInput()
     {
-        if(IsWallDetected())
+        if (IsWallDetected())
         {
-            return; 
+            return;
         }
-            
+
         dashUsageTimer -= Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashUsageTimer < 0)
         {
@@ -135,4 +137,5 @@ public class Player : MonoBehaviour
         else if (_xVelocity < 0 && facingRight)
             Flip();
     }
+  
 }
