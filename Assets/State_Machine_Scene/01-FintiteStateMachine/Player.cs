@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
+    [Header("Attack details")]
+    public Vector2[] attackMovement;
+    public bool isBusy { get; private set; }
     // public enum State
     // {
     //     Idle,
@@ -48,7 +50,7 @@ public class Player : MonoBehaviour
     public PlayerWallSlideState wallSlide { get; private set; }
     public PlayerWallJumpState wallJump { get; private set; }
     public PlayerDashState dashState { get; private set; }
-    public PlayerPrimaryAttack primaryAttack { get; private set; }
+    public PlayerPrimaryAttackState primaryAttack { get; private set; }
 
 
 
@@ -66,7 +68,7 @@ public class Player : MonoBehaviour
         dashState = new PlayerDashState(this, stateMachine, "Dash");
         wallSlide = new PlayerWallSlideState(this, stateMachine, "WallSlide");
         wallJump = new PlayerWallJumpState(this, stateMachine, "Jump");
-        primaryAttack = new PlayerPrimaryAttack(this, stateMachine, "Attack");
+        primaryAttack = new PlayerPrimaryAttackState(this, stateMachine, "Attack");
 
     }
     private void Start()
@@ -90,12 +92,19 @@ public class Player : MonoBehaviour
         // }
         Debug.Log(IsWallDetected());
     }
-      public void AimationTrigger()=>stateMachine.currentState.AnimationFinishTrigger();
+
+    public IEnumerator BusyFor(float seconds)
+    {
+        isBusy = true;
+        yield return new WaitForSeconds(seconds);
+        isBusy = false;
+    }
+    public void AimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
     private void CheckForDashInput()
     {
         if (IsWallDetected())
         {
-            return;
+            return; 
         }
 
         dashUsageTimer -= Time.deltaTime;
@@ -110,11 +119,16 @@ public class Player : MonoBehaviour
             stateMachine.ChangeState(dashState);
         }
     }
+
+    #region Velocity
+    public void ZeroVelocity() => rb.velocity = new Vector2(0, 0);
     public void SetVelocity(float _xVelocity, float _yVelocity)
     {
         rb.velocity = new Vector2(_xVelocity, _yVelocity);
         FlipController(_xVelocity);
     }
+    #endregion
+    #region Collision
     public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * faceingDir, wallCheckDistance, whatIsGround);
 
@@ -123,6 +137,9 @@ public class Player : MonoBehaviour
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
     }
+    #endregion 
+
+    #region Flip
     private void Flip()
     {
         faceingDir = faceingDir * -1;
@@ -130,12 +147,13 @@ public class Player : MonoBehaviour
         //this.transform.localScale = new Vector2(faceingDir, 1);
         this.transform.Rotate(0, 180, 0);
     }
-    private void FlipController(float _xVelocity)
+    public void FlipController(float _xVelocity)
     {
         if (_xVelocity > 0 && !facingRight)
             Flip();
         else if (_xVelocity < 0 && facingRight)
             Flip();
     }
-  
+    #endregion 
+
 }
