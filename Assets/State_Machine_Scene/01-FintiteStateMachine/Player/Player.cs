@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
         // if (timer <= 0 && Input.GetKey(KeyCode.LeftShift)){
         //     timer=coolDown;
         // }
-        Debug.Log(IsWallDetected());
+        // Debug.Log(IsWallDetected());
     }
 
     public IEnumerator BusyFor(float seconds)
