@@ -2,27 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStateMachine : MonoBehaviour
+public class EnemyStateMachine 
 {
-    public static EnemyStateMachine Instance { get; private set; }
-    private void Awake()
-    {
-        Instance = this;
-        DontDestroyOnLoad(this.gameObject);
-    }
-    public IState currentState;
+    public  EnemyState currentState{get;private set;}
 
-
-    public void initState(IState state)
+    public void Initialize(EnemyState _startState)
     {
-        currentState = state;
-        currentState.Enter();
+        currentState = _startState;
+        // currentState.Enter();
     }
-    public void changeState(IState newState)
+    public void changeState(EnemyState _newState)
     {
         currentState.Exit();
 
-        currentState = newState;
+        currentState = _newState;
 
         currentState.Enter();
     }

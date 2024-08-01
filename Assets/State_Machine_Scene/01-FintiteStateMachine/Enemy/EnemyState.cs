@@ -2,61 +2,91 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleState : IState
+public class EnemyState
 {
-    Enemy enemy;
-    public IdleState(Enemy _enemy)
+    public EnemyStateMachine stateMachine{get;private set;}
+    protected Enemy enemyBase;
+
+    protected bool triggerCalled;
+    private string animBoolName;
+    protected float stateTimer;
+
+    public EnemyState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName)
     {
-        enemy = _enemy;
-    }
-    public void Enter()
-    {
-        Debug.Log("enter idle");
+        this.enemyBase = _enemyBase;
+        this.stateMachine = _stateMachine;
+        this.animBoolName = _animBoolName;
     }
 
-    public void Exit()
+    public virtual void Update()
     {
-        Debug.Log("exit idle");
-      
         
+        stateTimer-=Time.deltaTime;
     }
 
-    public void Update()
+    public virtual void Enter()
     {
-        Debug.Log("update idle");
-        if(enemy.xInput!=0){
-              EnemyStateMachine.Instance.changeState(enemy.moveState);
-        }
-
+        triggerCalled = false;
+        enemyBase.anim.SetBool(animBoolName, true);
     }
-}
-public class MoveState : IState
-{
-    Enemy enemy;
-    public MoveState(Enemy _enemy)
+
+    public virtual void Exit()
     {
-         enemy = _enemy;
-    }
-    public void Enter()
-    {
-        Debug.Log("enter move");
+        enemyBase.anim.SetBool(animBoolName, false);
 
     }
+    //     public IdleState(Enemy _enemy)
+    //     {
+    //         enemy = _enemy;
+    //     }
+    //     public void Enter()
+    //     {
+    //         Debug.Log("enter idle");
+    //     }
 
-    public void Exit()
-    {
-        Debug.Log("exit move");
+    //     public void Exit()
+    //     {
+    //         Debug.Log("exit idle");
 
-    }
 
-    public void Update()
-    {
-        Debug.Log("update Move");
+    //     }
 
-        if(enemy.xInput==0){
-              EnemyStateMachine.Instance.changeState(enemy.idleState);
-        }
+    //     public void Update()
+    //     {
+    //         Debug.Log("update idle");
+    //         if(enemy.xInput!=0){
+    //               EnemyStateMachine.Instance.changeState(enemy.moveState);
+    //         }
 
-    }
+    //     }
+    // }
+    // public class MoveState : IState
+    // {
+    //     Enemy enemy;
+    //     public MoveState(Enemy _enemy)
+    //     {
+    //          enemy = _enemy;
+    //     }
+    //     public void Enter()
+    //     {
+    //         Debug.Log("enter move");
+
+    //     }
+
+    //     public void Exit()
+    //     {
+    //         Debug.Log("exit move");
+
+    //     }
+
+    //     public void Update()
+    //     {
+    //         Debug.Log("update Move");
+
+    //         if(enemy.xInput==0){
+    //               EnemyStateMachine.Instance.changeState(enemy.idleState);
+    //         }
+
+    //     }
 }
 

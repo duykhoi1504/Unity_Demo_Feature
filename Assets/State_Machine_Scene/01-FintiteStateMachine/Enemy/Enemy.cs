@@ -2,34 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Entity01
 {
-    // Start is called before the first frame update
-    [SerializeField] float move;
-    Rigidbody2D rb;
-     public IdleState idleState;
-     public MoveState moveState;
-public float xInput;
-    void Start()
+    public EnemyStateMachine stateMachine { get; private set; }
+    protected override void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-         idleState=new IdleState(this);
-         moveState=new MoveState(this);
- EnemyStateMachine.Instance.initState(idleState);
+        base.Awake();
+        stateMachine = new EnemyStateMachine();
+        
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-       
-        EnemyStateMachine.Instance.currentState.Update();
-        
-        Vector2 movement = transform.position;
-         xInput = Input.GetAxisRaw("Horizontal");
-        float yInput = Input.GetAxisRaw("Vertical");
-        Vector2 input = new Vector2(xInput, yInput);
+        base.Update();
 
-        
+        stateMachine.currentState.Update();
+
+        // Vector2 movement = transform.position;
+        //  xInput = Input.GetAxisRaw("Horizontal");
+        // float yInput = Input.GetAxisRaw("Vertical");
+        // Vector2 input = new Vector2(xInput, yInput);
+
+
         // var movement1 = transform.up * move * input.y + transform.right * move * input.x;
         // rb.velocity = movement1;
         // transform.position+=new Vector3(xInput,yInput,0)*move;
