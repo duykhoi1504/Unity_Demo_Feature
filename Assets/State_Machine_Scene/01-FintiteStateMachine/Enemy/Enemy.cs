@@ -4,12 +4,24 @@ using UnityEngine;
 
 public class Enemy : Entity01
 {
+    [SerializeField] protected LayerMask whatIsPlayer;
+    [Header("Move info")]
+    public float moveSpeed;
+    public float idleTime;
+    public float battleTime;    
+    [Header("Attack info")]
+    public float attackDistance;
+    public float attackCoolDown;
+    [HideInInspector] public float lastTimeAttacked;
+
+
+
     public EnemyStateMachine stateMachine { get; private set; }
     protected override void Awake()
     {
         base.Awake();
         stateMachine = new EnemyStateMachine();
-        
+
     }
 
     // Update is called once per frame
@@ -32,5 +44,14 @@ public class Enemy : Entity01
         // Debug.Log(new Vector2(xInput,yInput).normalized);
         // Debug.Log("manitie :" + new Vector2(1, 1).normalized.magnitude);
         // Debug.Log(transform.up);
+    }
+    public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+    public virtual RaycastHit2D IsPLayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * faceingDir, 10, whatIsPlayer);
+
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + attackDistance * faceingDir, transform.position.y));
     }
 }
