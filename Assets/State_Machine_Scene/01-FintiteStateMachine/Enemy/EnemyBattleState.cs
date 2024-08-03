@@ -18,7 +18,7 @@ public class SkeletonBattleState : EnemyState
         base.Enter();
         player = GameObject.FindObjectOfType<Player>();
 
-        Debug.Log("iam baatllte");
+        // Debug.Log("iam baatllte");
     }
     public override void Update()
     {

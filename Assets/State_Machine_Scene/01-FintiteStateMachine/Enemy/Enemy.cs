@@ -5,10 +5,14 @@ using UnityEngine;
 public class Enemy : Entity01
 {
     [SerializeField] protected LayerMask whatIsPlayer;
+    [Header("Stunned info")]
+    public float StunDuration;
+    public Vector2 stunDirection;
+
     [Header("Move info")]
     public float moveSpeed;
     public float idleTime;
-    public float battleTime;    
+    public float battleTime;
     [Header("Attack info")]
     public float attackDistance;
     public float attackCoolDown;

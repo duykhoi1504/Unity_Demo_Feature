@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98d7263da71f011409bc46a9d8416a9a, type: 3}
   m_Name: PLayerFire
   m_EditorClassIdentifier: 
-  abilityName: 
+  abilityName: fire
   killVFX: {fileID: 9027514048236820045, guid: effb650189dc5714e9e9801b1cfb3991, type: 3}
   killCoolDown: 1

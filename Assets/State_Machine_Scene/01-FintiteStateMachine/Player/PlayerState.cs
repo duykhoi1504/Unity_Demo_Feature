@@ -35,6 +35,7 @@ public class PlayerState
 
 
 
+
         // player.SetVelocity(xInput*player.moveSpeed,rb.velocity.y);
         
         player.anim.SetFloat("yVelocity",rb.velocity.y);

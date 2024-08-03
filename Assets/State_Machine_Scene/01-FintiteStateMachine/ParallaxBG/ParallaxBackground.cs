@@ -14,7 +14,7 @@ public class ParallaxBackground : MonoBehaviour
     {
         cam = GameObject.Find("Virtual Camera");
         length = GetComponent<SpriteRenderer>().bounds.size.x;
-        Debug.Log("do dai cua anh: "+length);
+        // Debug.Log("do dai cua anh: "+length);
         xPos = transform.position.x;
     }
 

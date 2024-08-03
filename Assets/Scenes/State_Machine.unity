@@ -379,6 +379,7 @@ GameObject:
   m_Component:
   - component: {fileID: 217001110}
   - component: {fileID: 217001113}
+  - component: {fileID: 217001114}
   - component: {fileID: 217001111}
   - component: {fileID: 217001112}
   m_Layer: 7
@@ -422,7 +423,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 3
+  m_GravityScale: 12
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -481,6 +482,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69abe348a4a319649a3202179809842e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knockBackDir: {x: 7, y: 12}
+  knockBackDuration: 0.1
   attackCheck: {fileID: 1478368066}
   attackRadious: 0.8
   groundCheck: {fileID: 1815450372}
@@ -499,6 +502,20 @@ MonoBehaviour:
   attackDistance: 1.97
   attackCoolDown: 2
   lastTimeAttacked: 0
+--- !u!114 &217001114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217001107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c490413b704854ba137d19f08a0175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitFXMat: {fileID: 2100000, guid: ba7d33674c587444b907b12f9324fc58, type: 2}
+  FlashDuration: 0.2
 --- !u!1 &225314751
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,6 +641,7 @@ GameObject:
   m_Component:
   - component: {fileID: 362748361}
   - component: {fileID: 362748360}
+  - component: {fileID: 362748365}
   - component: {fileID: 362748362}
   - component: {fileID: 362748363}
   - component: {fileID: 362748364}
@@ -646,6 +664,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb03f5d7d885be14ba74e0a7e3399a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knockBackDir: {x: 7, y: 12}
+  knockBackDuration: 0.1
   attackCheck: {fileID: 111030972}
   attackRadious: 0.8
   groundCheck: {fileID: 2119336065}
@@ -791,6 +811,20 @@ CapsuleCollider2D:
   m_Offset: {x: -0.027724057, y: -0.28660557}
   m_Size: {x: 0.74027485, y: 2.090726}
   m_Direction: 0
+--- !u!114 &362748365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362748359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c490413b704854ba137d19f08a0175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitFXMat: {fileID: 2100000, guid: ba7d33674c587444b907b12f9324fc58, type: 2}
+  FlashDuration: 0.2
 --- !u!1 &363163524
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,14 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 public class Entity01 : MonoBehaviour
 
 {
+   
     #region Components
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
+    public EntityFX fx{ get; private set; }
+
+    [Header("KnockBack info")]
+    [SerializeField] Vector2 knockBackDir;
+    protected bool isKnocked;
+    [SerializeField] float knockBackDuration;
 
     #endregion
     [Header("Collison info")]
@@ -27,6 +35,7 @@ public class Entity01 : MonoBehaviour
     }
     protected virtual void Start()
     {
+        fx=GetComponent<EntityFX>();
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
 
@@ -38,15 +47,31 @@ public class Entity01 : MonoBehaviour
         
     }
     public virtual void Damage(){
-        Debug.Log(gameObject.name+"was damaged");
+       
+        fx.StartCoroutine("FlashFX");
+        StartCoroutine("HitKnockBack");
+        // Debug.Log(gameObject.name+"was damaged");
     }
+     public IEnumerator HitKnockBack(){
+        isKnocked=true;
+        rb.velocity = new Vector2(knockBackDir.x* -faceingDir,knockBackDir.y);
+        yield return new WaitForSeconds(knockBackDuration);
+        isKnocked=false;
+     }
     #region Velocity
-    public  void SetZeroVelocity() => rb.velocity = new Vector2(0, 0);
+    public  void SetZeroVelocity() {
+        if(isKnocked){return;}
+    rb.velocity = new Vector2(0, 0);
+    } 
     public  void SetVelocity(float _xVelocity, float _yVelocity)
     {
+        if(isKnocked){return;}
+
         rb.velocity = new Vector2(_xVelocity, _yVelocity);
         FlipController(_xVelocity);
     }
+   
+
     #endregion
     #region Collision
     public virtual bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);

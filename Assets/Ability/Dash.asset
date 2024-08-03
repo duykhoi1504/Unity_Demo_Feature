@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: badc5e201ffe4d64182dcab4f7deed40, type: 3}
   m_Name: Dash
   m_EditorClassIdentifier: 
-  abilityName: 
+  abilityName: dash
   killVFX: {fileID: 5985634496115995773, guid: 463cf9f7af4680240898f6aeba3fe3e6, type: 3}
   killCoolDown: 1
