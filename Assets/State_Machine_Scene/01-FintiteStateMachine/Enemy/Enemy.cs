@@ -5,9 +5,14 @@ using UnityEngine;
 public class Enemy : Entity01
 {
     [SerializeField] protected LayerMask whatIsPlayer;
+
+
     [Header("Stunned info")]
     public float StunDuration;
     public Vector2 stunDirection;
+    protected bool canBeStunned;
+    [SerializeField] protected GameObject counterImage; 
+
 
     [Header("Move info")]
     public float moveSpeed;
@@ -51,7 +56,22 @@ public class Enemy : Entity01
     }
     public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
     public virtual RaycastHit2D IsPLayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * faceingDir, 10, whatIsPlayer);
-
+    public virtual void OpenCounterAttackWindow(){
+        canBeStunned=true;
+        counterImage.SetActive(true);
+    }
+     public virtual void CloseCounterAttackWindoww(){
+        canBeStunned=false;
+        counterImage.SetActive(false);
+        
+    }
+    public virtual bool CanBeStunned(){
+        if(canBeStunned){
+            CloseCounterAttackWindoww();
+            return true;
+        }
+        return false;
+    }
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();

@@ -42,7 +42,7 @@ public class SkeletonBattleState : EnemyState
         //  Debug.Log("huong "+ moveDir);
         // if(distanceEtoP<=5){
 
-        enemy.SetVelocity(enemy.moveSpeed * 2f * moveDir.x, rb.velocity.y);
+        enemy.SetVelocity(enemy.moveSpeed * moveDir.x, rb.velocity.y);
         // }else{
         //     stateMachine.changeState(enemy.moveState);
         // }

@@ -20,9 +20,9 @@ public class Enemy_Skeleton : Enemy
         base.Awake();
         idleState = new SkeletonIdleState(this, stateMachine, "idle", this);
         moveState = new SkeletonMoveState(this, stateMachine, "move", this);
-       battleState= new SkeletonBattleState(this, stateMachine, "move", this);
-       attackState= new SkeletonAttackState(this, stateMachine, "attack", this);
-       stunnedState= new SkeletonStunnedState(this, stateMachine, "stunned", this);
+        battleState = new SkeletonBattleState(this, stateMachine, "move", this);
+        attackState = new SkeletonAttackState(this, stateMachine, "attack", this);
+        stunnedState = new SkeletonStunnedState(this, stateMachine, "stunned", this);
 
 
     }
@@ -30,14 +30,24 @@ public class Enemy_Skeleton : Enemy
     protected override void Start()
     {
         base.Start();
-         stateMachine.Initialize(idleState);
+        stateMachine.Initialize(idleState);
     }
 
     protected override void Update()
     {
         base.Update();
-        if(Input.GetKeyDown(KeyCode.U)){
+        if (Input.GetKeyDown(KeyCode.U))
+        {
             stateMachine.changeState(stunnedState);
         }
+    }
+    public override bool CanBeStunned()
+    {
+        if (base.CanBeStunned())
+        {
+            stateMachine.changeState(stunnedState);
+            return true;
+        }
+        return false;
     }
 }
