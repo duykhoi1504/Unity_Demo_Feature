@@ -25,6 +25,7 @@ public class Player : Entity01
     public float dashDir { get; private set; }
 
     public SkillManager skill;
+    public GameObject sword;
 
 
 
@@ -91,7 +92,12 @@ public class Player : Entity01
         // }
         // Debug.Log(IsWallDetected());
     }
-
+    public void AssignNewSword(GameObject _newSword){
+        sword=_newSword;
+    }
+    public void ClearTheSword(){
+        Destroy(sword);
+    }
     public IEnumerator BusyFor(float seconds)
     {
         isBusy = true;
