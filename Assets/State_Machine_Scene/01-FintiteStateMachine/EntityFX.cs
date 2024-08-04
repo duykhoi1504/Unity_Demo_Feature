@@ -13,6 +13,7 @@ public class EntityFX : MonoBehaviour
     {
         sprite = GetComponentInChildren<SpriteRenderer>();
         originMat =sprite.material;
+        
     }
 
     // Update is called once per frame

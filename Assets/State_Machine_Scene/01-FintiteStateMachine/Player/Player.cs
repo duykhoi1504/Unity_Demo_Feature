@@ -18,13 +18,13 @@ public class Player : Entity01
     public float moveSpeed = 10f;
     public float jumpForce = 10f;
     [Header("Dash Info")]
-    [SerializeField] private float dashCoolDown;
-    [SerializeField] private float dashUsageTimer;
+    // [SerializeField] private float dashCoolDown;
+    // [SerializeField] private float dashUsageTimer;
     public float dashSpeed = 25f;
     public float dashDuration = .5f;
     public float dashDir { get; private set; }
 
-
+    public SkillManager skill;
 
 
 
@@ -39,6 +39,8 @@ public class Player : Entity01
     public PlayerDashState dashState { get; private set; }
     public PlayerPrimaryAttackState primaryAttack { get; private set; }
     public PlayerCounterAttackState counterAttack { get; private set; }
+    public PlayerAimSwordState aimSword { get; private set; }
+    public PlayerCatchSwordState catchSword { get; private set; }
 
 
 
@@ -59,14 +61,18 @@ public class Player : Entity01
         wallJump = new PlayerWallJumpState(this, stateMachine, "Jump");
         primaryAttack = new PlayerPrimaryAttackState(this, stateMachine, "Attack");
         counterAttack = new PlayerCounterAttackState(this, stateMachine, "CounterAttack");
+        aimSword = new PlayerAimSwordState(this, stateMachine, "AimSword");
+        catchSword = new PlayerCatchSwordState(this, stateMachine, "CatchSword");
+
+
 
 
     }
      protected override void Start()
     {
         base.Start();
+        skill=SkillManager.instance;
         stateMachine.Initialize(idleState);
-
         
 
     }
@@ -100,10 +106,10 @@ public class Player : Entity01
             return; 
         }
 
-        dashUsageTimer -= Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashUsageTimer < 0)
+        // dashUsageTimer -= Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.LeftShift) && SkillManager.instance.dash.CanUseSkill())
         {
-            dashUsageTimer = dashCoolDown;
+            // dashUsageTimer = dashCoolDown;
             dashDir = Input.GetAxisRaw("Horizontal");
             if (dashDir == 0)
             {

@@ -5,9 +5,10 @@ using UnityEngine;
 public class SkeletonBattleState : EnemyState
 
 {
+    PlayerManager playerManager;
     float distanceEtoP;
     Enemy_Skeleton enemy;
-    private Player player;
+    private Transform player;
 
     public SkeletonBattleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, Enemy_Skeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
@@ -16,7 +17,8 @@ public class SkeletonBattleState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        player = GameObject.FindObjectOfType<Player>();
+        // player = GameObject.FindObjectOfType<Player>();
+        player=PlayerManager.instance.player.transform;
 
         // Debug.Log("iam baatllte");
     }

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PrefabManager : MonoBehaviour
 {
-   
+
     public static PrefabManager Instance { get; private set; }
-     [System.Serializable]
+    [System.Serializable]
+    //[System.Serializable]  ->
+    //Unity sẽ tự động tạo một inspector GUI cho class đó, cho phép bạn chỉnh sửa các thuộc tính trong editor
     public class AbilityData
     {
         public string abilityName;
@@ -14,7 +16,7 @@ public class PrefabManager : MonoBehaviour
     }
 
     // public List<PlayerAbility> Abilities;
-  public List<AbilityData> Abilities = new List<AbilityData>();
+    public List<AbilityData> Abilities = new List<AbilityData>();
     public PLayerController player;
     private void Awake()
     {
@@ -24,7 +26,7 @@ public class PrefabManager : MonoBehaviour
     private void Update()
     {
         // Update cooldowns for all abilities
-         foreach (var abilityData in Abilities)
+        foreach (var abilityData in Abilities)
         {
             abilityData.ability.UpdateCooldown(Time.deltaTime);
         }
@@ -32,9 +34,9 @@ public class PrefabManager : MonoBehaviour
     public void UseAbility(int index)
     {
         if (index >= Abilities.Count) return;
-         var abilityData = Abilities[index];
-          Debug.Log($"Using ability: {abilityData.abilityName}");
-         abilityData.ability.Use(player);
+        var abilityData = Abilities[index];
+        Debug.Log($"Using ability: {abilityData.abilityName}");
+        abilityData.ability.Use(player);
     }
 
 }

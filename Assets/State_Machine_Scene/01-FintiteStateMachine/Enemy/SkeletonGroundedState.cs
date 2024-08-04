@@ -6,7 +6,7 @@ using UnityEngine;
 public class SkeletonGroundedState : EnemyState
 {
     protected Enemy_Skeleton enemy;
-    protected Player player;
+    protected Transform player;
     public SkeletonGroundedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,Enemy_Skeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
         enemy = _enemy;
@@ -14,7 +14,9 @@ public class SkeletonGroundedState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        player=GameObject.FindObjectOfType<Player>();
+        // player=GameObject.FindObjectOfType<Player>();
+        player=PlayerManager.instance.player.transform;
+
     
     }
     public override void Update()
